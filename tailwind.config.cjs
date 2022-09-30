@@ -2,7 +2,13 @@
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      borderRadius: {
+        10: "0.625rem",
+        20: "1.25rem",
+        40: "2.5rem",
+      },
+    },
     colors: {
       purple: "#4f40da",
       "purple-dark": "#1c1840",

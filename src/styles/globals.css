@@ -3,11 +3,14 @@
 @tailwind utilities;
 
 body {
-  @apply mx-auto max-w-[1360px] bg-grey-light px-[30px] sm:px-10 relative;
+  @apply relative mx-auto max-w-[1360px] bg-grey-light px-[30px] sm:px-10;
 }
 
 @layer components {
   .btn-primary {
-    @apply flex h-11 items-center rounded-full bg-purple pl-6 pr-[30px] text-xs font-medium text-white;
+    @apply flex h-11 items-center gap-2.5 rounded-full bg-purple pl-6 pr-[30px] text-xs font-medium text-white;
+  }
+  .btn-secondary {
+    @apply flex h-11 items-center gap-2.5 rounded-full bg-white pl-6 pr-[30px] text-xs font-medium text-purple;
   }
 }

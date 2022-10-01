@@ -10,7 +10,7 @@ import Search from "../../public/svg/search.svg";
 import User from "../../public/svg/user.svg";
 import ComboBox, { type Options } from "../UI/ComboBox";
 import ListBox from "../UI/ListBox";
-import Input from "../UI/Input";
+import InputCurrency from "../UI/Input";
 
 export type Form = {
   location: Options | undefined;
@@ -86,13 +86,13 @@ const Home: NextPage = () => {
             >
               <User className="mr-2.5 h-[22px] w-[22px] fill-grey" />
             </ListBox>
-            <Input
+            <InputCurrency
               name="minPrice"
               placeholder="Price minimum"
               value={form.minPrice}
               setForm={setForm}
             />
-            <Input
+            <InputCurrency
               name="maxPrice"
               placeholder="Price maximum"
               value={form.maxPrice}

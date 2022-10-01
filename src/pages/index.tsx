@@ -1,104 +1,46 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { trpc } from "../utils/trpc";
+// import { signIn, signOut, useSession } from "next-auth/react";
+// import { trpc } from "../utils/trpc";
 import Image from "next/future/image";
-import { useState, Fragment } from "react";
-import { Combobox, Transition } from "@headlessui/react";
-import clsx from "clsx";
+import { useState } from "react";
 
-import Arrow from "../../public/svg/arrow.svg";
 import Location from "../../public/svg/location.svg";
 import Search from "../../public/svg/search.svg";
+import User from "../../public/svg/user.svg";
+import ComboBox, { type Options } from "../UI/ComboBox";
+import ListBox from "../UI/ListBox";
 
-const locationOptions = [
-  { id: 1, name: "Select location" },
-  { id: 2, name: "Arizona" },
-  { id: 3, name: "California" },
-  { id: 4, name: "New York" },
-  { id: 5, name: "Texas" },
-  { id: 6, name: "Washington" },
-];
-
-const ComboBox = () => {
-  const [selected, setSelected] = useState(locationOptions[0]);
-  const [query, setQuery] = useState("");
-
-  const filteredPeople =
-    query === ""
-      ? locationOptions
-      : locationOptions.filter((item) =>
-          item.name
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
-
-  return (
-    <Combobox
-      value={selected}
-      onChange={setSelected}
-      as="div"
-      className="border-b border-grey/20 pb-4"
-    >
-      <div className="relative flex cursor-default items-center">
-        <Location className="mr-2.5 -mt-1" />
-        <Combobox.Input
-          className="w-full text-sm text-grey outline-none"
-          displayValue={(person: typeof locationOptions[0]) => person.name}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center p-2.5">
-          <Arrow aria-hidden="true" />
-        </Combobox.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        leave="transition ease-in duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        afterLeave={() => setQuery("")}
-      >
-        <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg">
-          {filteredPeople.length === 0 && query !== "" ? (
-            <div className="relative cursor-default select-none py-2.5 px-[30px]">
-              Nothing found.
-            </div>
-          ) : (
-            filteredPeople.map((person, index) => (
-              <Combobox.Option
-                key={person.id}
-                className={({ active }) =>
-                  clsx(
-                    "relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20",
-                    active &&
-                      index === filteredPeople.length - 1 &&
-                      "rounded-b-20"
-                  )
-                }
-                value={person}
-              >
-                {({ selected }) => (
-                  <span
-                    className={`block truncate ${
-                      selected ? "font-medium text-purple-dark" : ""
-                    }`}
-                  >
-                    {person.name}
-                  </span>
-                )}
-              </Combobox.Option>
-            ))
-          )}
-        </Combobox.Options>
-      </Transition>
-    </Combobox>
-  );
+export type Form = {
+  location: Options | undefined;
+  guests: Options | undefined;
 };
 
-const Home: NextPage = () => {
-  // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+const locationOptions = [
+  { id: 1, name: "Location", value: "" },
+  { id: 2, name: "Arizona", value: "arizona" },
+  { id: 3, name: "California", value: "california" },
+  { id: 4, name: "New York", value: "new york" },
+  { id: 5, name: "Texas", value: "texas" },
+  { id: 6, name: "Washington", value: "washington" },
+];
+const guestsOptions = [
+  { id: 1, name: "Number of guests", value: "" },
+  { id: 2, name: "1", value: "0-1" },
+  { id: 3, name: "2", value: "0-2" },
+  { id: 4, name: "3 to 4", value: "3-4" },
+  { id: 5, name: "4 to 5", value: "4-5" },
+  { id: 6, name: "5 to 10", value: "5-10" },
+  { id: 7, name: "10 or more", value: "10-100" },
+];
 
+const Home: NextPage = () => {
+  const [form, setForm] = useState({
+    location: locationOptions[0],
+    guests: guestsOptions[0],
+  });
+  console.log(form);
+  // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
   return (
     <>
       <Head>
@@ -123,7 +65,22 @@ const Home: NextPage = () => {
             Discover & Book unique spaces for your upcoming activity.
           </p>
           <div className="relative mt-10 space-y-5 rounded-40 bg-white p-6 pt-10">
-            <ComboBox />
+            <ComboBox
+              options={locationOptions}
+              name="location"
+              setForm={setForm}
+              value={form.location as Options}
+            >
+              <Location className="mr-2.5 -mt-1" />
+            </ComboBox>
+            <ListBox
+              options={guestsOptions}
+              name="guests"
+              setForm={setForm}
+              value={form.guests as Options}
+            >
+              <User className="mr-2.5 -mt-0.5 h-[22px] w-[22px] fill-grey" />
+            </ListBox>
             <button className="btn-primary w-full justify-center">
               <Search />
               Search

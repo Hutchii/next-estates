@@ -61,24 +61,24 @@ const Profile = () => {
       </button>
       <ul
         className={clsx(
-          "transition-all lg:pointer-events-none lg:absolute lg:right-0 lg:top-16 lg:scale-95 lg:rounded-10 lg:bg-white lg:text-sm lg:opacity-0 lg:shadow-sm",
+          "transition-all lg:pointer-events-none lg:absolute lg:right-0 lg:top-[60px] lg:scale-95 lg:rounded-10 lg:bg-white lg:text-xs lg:opacity-0 lg:shadow-lg",
           isProfileOpen && "lg:pointer-events-auto lg:scale-100 lg:opacity-100"
         )}
       >
         <li>
-          <a className="flex w-full cursor-pointer items-center gap-5 py-4 font-medium lg:w-full lg:justify-end lg:pr-5 lg:pl-12 lg:hover:rounded-10 lg:hover:bg-purple/5">
+          <a className="flex w-full cursor-pointer items-center gap-5 py-4 font-medium lg:w-full lg:justify-end lg:pr-5 lg:pl-10 lg:hover:rounded-t-10 lg:hover:bg-purple-light/20">
             <User className="lg:order-2 lg:h-6 lg:w-6" />
             Profile
           </a>
         </li>
         <li>
-          <a className="flex w-full cursor-pointer items-center gap-5 py-4 font-medium lg:pr-5 lg:pl-12 lg:hover:rounded-10 lg:hover:bg-purple/5">
+          <a className="flex w-full cursor-pointer items-center gap-5 py-4 font-medium lg:pr-5 lg:pl-10 lg:hover:bg-purple-light/20">
             <Settings className="lg:order-2 lg:h-6 lg:w-6" />
             Settings
           </a>
         </li>
-        <li>
-          <button className="flex w-full items-center gap-5 py-4 font-medium lg:pr-5 lg:pl-12 lg:hover:rounded-10 lg:hover:bg-purple/5">
+        <li className="border-t border-grey/10">
+          <button className="flex w-full items-center gap-5 py-4 font-medium lg:pr-5 lg:pl-10 lg:hover:rounded-b-10 lg:hover:bg-purple-light/20">
             <SignOut className="lg:order-2 lg:h-6 lg:w-6" />
             Sign Out
           </button>
@@ -95,7 +95,7 @@ const Header = () => {
     <header className="flex h-20 items-center justify-between text-md text-purple-dark">
       <div
         className={clsx(
-          "absolute top-0 left-0 z-10 h-screen w-full -translate-x-full bg-grey-light transition-transform lg:hidden",
+          "absolute top-0 left-0 z-20 h-screen w-full -translate-x-full bg-grey-light transition-transform lg:hidden",
           isDropdownOpen && "translate-x-0"
         )}
       />

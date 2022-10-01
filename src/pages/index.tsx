@@ -10,10 +10,13 @@ import Search from "../../public/svg/search.svg";
 import User from "../../public/svg/user.svg";
 import ComboBox, { type Options } from "../UI/ComboBox";
 import ListBox from "../UI/ListBox";
+import Input from "../UI/Input";
 
 export type Form = {
   location: Options | undefined;
   guests: Options | undefined;
+  minPrice: string;
+  maxPrice: string;
 };
 
 const locationOptions = [
@@ -29,15 +32,17 @@ const guestsOptions = [
   { id: 2, name: "1", value: "0-1" },
   { id: 3, name: "2", value: "0-2" },
   { id: 4, name: "3 to 4", value: "3-4" },
-  { id: 5, name: "4 to 5", value: "4-5" },
-  { id: 6, name: "5 to 10", value: "5-10" },
-  { id: 7, name: "10 or more", value: "10-100" },
+  { id: 5, name: "5 to 6", value: "5-6" },
+  { id: 6, name: "7 to 10", value: "7-10" },
+  { id: 7, name: "More than 10", value: "11-100" },
 ];
 
 const Home: NextPage = () => {
   const [form, setForm] = useState({
     location: locationOptions[0],
     guests: guestsOptions[0],
+    minPrice: "",
+    maxPrice: "",
   });
   console.log(form);
   // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
@@ -71,7 +76,7 @@ const Home: NextPage = () => {
               setForm={setForm}
               value={form.location as Options}
             >
-              <Location className="mr-2.5 -mt-1" />
+              <Location className="mr-2.5 -mt-0.5" />
             </ComboBox>
             <ListBox
               options={guestsOptions}
@@ -79,8 +84,20 @@ const Home: NextPage = () => {
               setForm={setForm}
               value={form.guests as Options}
             >
-              <User className="mr-2.5 -mt-0.5 h-[22px] w-[22px] fill-grey" />
+              <User className="mr-2.5 h-[22px] w-[22px] fill-grey" />
             </ListBox>
+            <Input
+              name="minPrice"
+              placeholder="Price minimum"
+              value={form.minPrice}
+              setForm={setForm}
+            />
+            <Input
+              name="maxPrice"
+              placeholder="Price maximum"
+              value={form.maxPrice}
+              setForm={setForm}
+            />
             <button className="btn-primary w-full justify-center">
               <Search />
               Search

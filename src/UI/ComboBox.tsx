@@ -17,12 +17,14 @@ const ComboBox = ({
   name,
   setForm,
   value,
+  placeholder,
 }: {
   options: { id: number; name: string }[];
   children: React.ReactElement;
   name: string;
   setForm: React.Dispatch<React.SetStateAction<Form>>;
-  value: Options;
+  value: Options[];
+  placeholder: string;
 }) => {
   const [query, setQuery] = useState("");
 
@@ -35,33 +37,43 @@ const ComboBox = ({
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
   return (
     <Combobox
-      value={value}
-      onChange={(v: Options) => setForm((p) => ({ ...p, [name]: v }))}
       as="div"
+      value={value}
+      onChange={(value: Options[]) =>
+        setForm((prevValues) => ({ ...prevValues, [name]: value }))
+      }
       className="border-b border-grey/20 pb-4"
+      multiple
     >
-      {({ open }) => (
+      {({ open, value }) => (
         <>
-          <div className="relative flex cursor-default items-center">
+          <div className="relative flex items-center">
             {children}
-            <Combobox.Input
-              className={clsx(
-                "w-full text-sm text-grey outline-none",
-                value.name !== options[0]?.name &&
-                  "font-medium text-purple-dark"
-              )}
-              displayValue={(item: Options) => item.name}
-              onChange={(event) => setQuery(event.target.value)}
-            />
             <Combobox.Button
-              className={clsx(
-                "absolute inset-y-0 right-0 flex items-center p-2.5 transition-transform",
-                open && "rotate-180"
-              )}
+              as="span"
+              className="flex w-full items-center pr-2.5"
             >
-              <Arrow aria-hidden="true" />
+              <Combobox.Input
+                placeholder={placeholder}
+                className="w-full pr-2.5 text-sm font-medium text-purple-dark outline-none placeholder:font-normal placeholder:text-grey"
+                displayValue={(items: Options[]) =>
+                  items
+                    .slice(1)
+                    .map((person) => person.name)
+                    .join(", ")
+                }
+                onChange={(event) => setQuery(event.target.value)}
+              />
+              <Arrow
+                aria-hidden="true"
+                className={clsx(
+                  "cursor-pointer transition-transform",
+                  open && "rotate-180"
+                )}
+              />
             </Combobox.Button>
           </div>
           <Transition
@@ -72,36 +84,59 @@ const ComboBox = ({
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg">
-              {filteredOptions.length === 0 && query !== "" ? (
-                <div className="relative cursor-default select-none py-2.5 px-[30px]">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredOptions.map((item, index) => (
-                  <Combobox.Option
-                    key={item.id}
-                    className={({ active }) =>
-                      clsx(
-                        "relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20",
-                        active &&
-                          index === filteredOptions.length - 1 &&
-                          "rounded-b-20"
-                      )
-                    }
-                    value={item}
-                  >
-                    <span
-                      className={clsx(
-                        "block truncate",
-                        item.name === value.name &&
-                          "font-medium text-purple-dark"
-                      )}
+              <>
+                {value.length > 1 && (
+                  <>
+                    <span className="block px-[30px] text-xs">Selected:</span>
+                    <ul className="border-b border-grey/20">
+                      {value.slice(1).map((item) => (
+                        <li
+                          className="relative flex w-full cursor-pointer select-none py-2.5 px-[30px] font-medium text-purple-dark hover:bg-purple-light/20"
+                          key={item.id}
+                          onClick={() =>
+                            setForm((prevValues) => ({
+                              ...prevValues,
+                              [name]: [
+                                ...(prevValues as any)[name]?.filter(
+                                  (filteredItem: any) =>
+                                    filteredItem.name !== item.name
+                                ),
+                              ],
+                            }))
+                          }
+                        >
+                          {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {filteredOptions.length === 0 && query !== "" ? (
+                  <span className="relative block cursor-default select-none py-2.5 px-[30px]">
+                    Nothing found.
+                  </span>
+                ) : (
+                  filteredOptions.map((item) => (
+                    <Combobox.Option
+                      key={item.id}
+                      className="relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20"
+                      value={item}
+                      onClick={() => setQuery("")}
                     >
-                      {item.name}
-                    </span>
-                  </Combobox.Option>
-                ))
-              )}
+                      {({ selected }) => (
+                        <span
+                          className={clsx(
+                            "block truncate",
+                            selected && "font-medium text-purple-dark"
+                          )}
+                        >
+                          {item.name}
+                        </span>
+                      )}
+                    </Combobox.Option>
+                  ))
+                )}
+              </>
             </Combobox.Options>
           </Transition>
         </>

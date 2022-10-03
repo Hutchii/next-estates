@@ -61,7 +61,8 @@ const ListBox = ({
                   className={({ active }) =>
                     clsx(
                       "relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20",
-                      active && index === options.length - 1 && "rounded-b-20"
+                      active && index === options.length - 1 && "rounded-b-20",
+                      index === 0 && "text-grey/50"
                     )
                   }
                   value={item}
@@ -69,7 +70,9 @@ const ListBox = ({
                   <span
                     className={clsx(
                       "block truncate",
-                      item.name === value.name && "font-medium text-purple-dark"
+                      item.name === value.name &&
+                        value.value !== "" &&
+                        "font-medium text-purple-dark"
                     )}
                   >
                     {item.name}

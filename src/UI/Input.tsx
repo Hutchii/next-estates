@@ -37,10 +37,7 @@ const InputCurrency = ({
           floatValue: number;
           formattedValue: string;
           value: string;
-        }) => {
-          console.log(values);
-          setForm((p) => ({ ...p, [name]: values.formattedValue }));
-        }}
+        }) => setForm((p) => ({ ...p, [name]: values.formattedValue }))}
       />
     </div>
   );

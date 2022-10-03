@@ -45,13 +45,11 @@ const ComboBox = ({
     >
       {({ open, value }) => (
         <>
-          <Combobox.Button
-            className="flex w-full items-center pr-2.5"
-          >
+          <Combobox.Button className="flex w-full items-center pr-2.5">
             <span>{children}</span>
             <Combobox.Input
               placeholder={placeholder}
-              className="w-full pr-2.5 text-sm font-medium text-purple-dark outline-none placeholder:font-normal placeholder:text-grey"
+              className="mt-0.5 w-full pr-2.5 text-sm font-medium text-purple-dark/80 outline-none placeholder:font-normal placeholder:text-grey lg:mt-1"
               displayValue={(items: SelectOptions[]) =>
                 items
                   .slice(1)
@@ -60,7 +58,7 @@ const ComboBox = ({
               }
               onChange={(event) => setQuery(event.target.value)}
             />
-            <span className="flex items-center">
+            <span className="mt-0.5 flex items-center">
               <div
                 className="cursor-pointer pr-1.5"
                 onClick={(e: React.FormEvent<HTMLDivElement>) => {
@@ -73,7 +71,7 @@ const ComboBox = ({
               >
                 <X className="h-5 w-5 fill-grey" />
               </div>
-              <div className="h-4 w-[1px] bg-grey/50" />
+              <div className="h-4 w-[1px] bg-grey/40" />
               <div className="cursor-pointer pl-1.5">
                 <Arrow
                   aria-hidden="true"
@@ -92,15 +90,17 @@ const ComboBox = ({
             leaveTo="opacity-0 scale-[0.98]"
             afterLeave={resetQuery}
           >
-            <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg">
+            <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg lg:mt-2.5">
               <>
                 {value.length > 1 && (
                   <>
-                    <span className="block px-[30px] text-xs">Selected:</span>
+                    <span className="block px-[30px] pt-2.5 text-[0.938rem] font-medium text-purple">
+                      SELECTED:
+                    </span>
                     <ul className="border-b border-grey/20">
                       {value.slice(1).map((item) => (
                         <li
-                          className="relative flex w-full cursor-pointer select-none py-2.5 px-[30px] font-medium text-purple-dark hover:bg-purple-light/20"
+                          className="relative flex w-full cursor-pointer select-none py-2.5 px-[30px] font-medium text-purple-dark/80 hover:bg-purple-light/20"
                           key={item.id}
                           onClick={() =>
                             onChange((prevValues) => ({
@@ -136,7 +136,7 @@ const ComboBox = ({
                         <span
                           className={clsx(
                             "block truncate",
-                            selected && "font-medium text-purple-dark"
+                            selected && "font-medium text-purple-dark/80"
                           )}
                         >
                           {item.name}

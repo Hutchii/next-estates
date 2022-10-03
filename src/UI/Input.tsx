@@ -29,10 +29,10 @@ const InputCurrency = ({
   return (
     <>
       <span>
-        <Dollar />
+        <Dollar className="fill-purple-dark/60"/>
       </span>
       <Currency
-        className="placehoder:text-grey block w-full truncate text-sm font-medium text-purple-dark outline-none placeholder:font-normal"
+        className="placehoder:text-grey block w-full truncate text-sm font-medium text-purple-dark/80 outline-none placeholder:text-sm placeholder:font-normal lg:mt-0.5"
         value={value}
         placeholder={placeholder}
         onValueChange={(values: {

@@ -34,13 +34,13 @@ const ListBox = ({
             <span>{children}</span>
             <span
               className={clsx(
-                "block truncate text-sm text-grey outline-none",
-                value.name && "font-medium text-purple-dark"
+                "mt-0.5 block truncate text-sm text-grey outline-none lg:mt-1",
+                value.name && "font-medium text-purple-dark/80"
               )}
             >
               {value.name || placeholder}
             </span>
-            <span className="ml-auto flex items-center">
+            <span className="ml-auto mt-0.5 flex items-center">
               <div
                 className="cursor-pointer pr-1.5"
                 onClick={(e: React.FormEvent<HTMLDivElement>) => {
@@ -53,7 +53,7 @@ const ListBox = ({
               >
                 <X className="h-5 w-5 fill-grey" />
               </div>
-              <div className="h-4 w-[1px] bg-grey/50" />
+              <div className="h-4 w-[1px] bg-grey/40" />
               <div className="cursor-pointer pl-1.5">
                 <Arrow
                   aria-hidden="true"
@@ -71,7 +71,7 @@ const ListBox = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg">
+            <Listbox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg lg:mt-2.5">
               {options.map((item) => (
                 <Listbox.Option
                   key={item.id}
@@ -82,7 +82,7 @@ const ListBox = ({
                     <span
                       className={clsx(
                         "block truncate",
-                        selected && "font-medium text-purple-dark"
+                        selected && "font-medium text-purple-dark/80"
                       )}
                     >
                       {item.name}

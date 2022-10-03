@@ -1,51 +1,68 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { type Options } from "./ComboBox";
+import clsx from "clsx";
+import type { FiltersForm, SelectOptions } from "../pages";
 
 import Arrow from "../../public/svg/arrow.svg";
-import { Form } from "../pages";
-import clsx from "clsx";
+import X from "../../public/svg/x.svg";
 
 const ListBox = ({
   options,
   children,
   name,
-  setForm,
+  placeholder,
+  onChange,
   value,
+  initialValues,
 }: {
   options: { id: number; name: string }[];
   children: React.ReactElement;
   name: string;
-  setForm: React.Dispatch<React.SetStateAction<Form>>;
-  value: Options;
+  placeholder: string;
+  onChange: React.Dispatch<React.SetStateAction<FiltersForm>>;
+  value: SelectOptions;
+  initialValues: SelectOptions;
 }) => {
   return (
     <Listbox
       value={value}
-      onChange={(v: Options) => setForm((p) => ({ ...p, [name]: v }))}
-      as="div"
-      className="border-b border-grey/20 pb-4"
+      onChange={(v: SelectOptions) => onChange((p) => ({ ...p, [name]: v }))}
     >
       {({ open }) => (
         <>
-          <Listbox.Button className="relative flex w-full cursor-default items-center">
-            {children}
+          <Listbox.Button className="flex w-full cursor-pointer items-center pr-2.5">
+            <span>{children}</span>
             <span
               className={clsx(
                 "block truncate text-sm text-grey outline-none",
-                value.name !== options[0]?.name &&
-                  "font-medium text-purple-dark"
+                value.name && "font-medium text-purple-dark"
               )}
             >
-              {value.name}
+              {value.name || placeholder}
             </span>
-            <span
-              className={clsx(
-                "absolute inset-y-0 right-0 flex items-center p-2.5 transition-transform",
-                open && "rotate-180"
-              )}
-            >
-              <Arrow aria-hidden="true" />
+            <span className="ml-auto flex items-center">
+              <div
+                className="cursor-pointer pr-1.5"
+                onClick={(e: React.FormEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  onChange((prevValues) => ({
+                    ...prevValues,
+                    [name]: initialValues,
+                  }));
+                }}
+              >
+                <X className="h-5 w-5 fill-grey" />
+              </div>
+              <div className="h-4 w-[1px] bg-grey/50" />
+              <div className="cursor-pointer pl-1.5">
+                <Arrow
+                  aria-hidden="true"
+                  className={clsx(
+                    "h-6 w-6 fill-grey transition-transform",
+                    open && "rotate-180"
+                  )}
+                />
+              </div>
             </span>
           </Listbox.Button>
           <Transition
@@ -55,28 +72,22 @@ const ListBox = ({
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg">
-              {options.map((item, index) => (
+              {options.map((item) => (
                 <Listbox.Option
                   key={item.id}
-                  className={({ active }) =>
-                    clsx(
-                      "relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20",
-                      active && index === options.length - 1 && "rounded-b-20",
-                      index === 0 && "text-grey/50"
-                    )
-                  }
+                  className="relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20"
                   value={item}
                 >
-                  <span
-                    className={clsx(
-                      "block truncate",
-                      item.name === value.name &&
-                        value.value !== "" &&
-                        "font-medium text-purple-dark"
-                    )}
-                  >
-                    {item.name}
-                  </span>
+                  {({ selected }) => (
+                    <span
+                      className={clsx(
+                        "block truncate",
+                        selected && "font-medium text-purple-dark"
+                      )}
+                    >
+                      {item.name}
+                    </span>
+                  )}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

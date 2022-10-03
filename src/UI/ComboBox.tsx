@@ -46,7 +46,6 @@ const ComboBox = ({
       {({ open, value }) => (
         <>
           <Combobox.Button
-            as="span"
             className="flex w-full items-center pr-2.5"
           >
             <span>{children}</span>

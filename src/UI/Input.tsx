@@ -28,7 +28,9 @@ const InputCurrency = ({
 }) => {
   return (
     <>
-      <Dollar />
+      <span>
+        <Dollar />
+      </span>
       <Currency
         className="placehoder:text-grey block w-full truncate text-sm font-medium text-purple-dark outline-none placeholder:font-normal"
         value={value}

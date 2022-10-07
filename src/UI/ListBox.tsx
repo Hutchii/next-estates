@@ -34,7 +34,7 @@ const ListBox = ({
             <span>{children}</span>
             <span
               className={clsx(
-                "mt-0.5 block truncate text-sm text-grey outline-none lg:mt-1",
+                "block truncate text-sm leading-10 text-purple-dark/60 outline-none",
                 value.name && "font-medium text-purple-dark/80"
               )}
             >
@@ -51,14 +51,14 @@ const ListBox = ({
                   }));
                 }}
               >
-                <X className="h-5 w-5 fill-grey" />
+                <X className="h-5 w-5 fill-purple-dark/60" />
               </div>
-              <div className="h-4 w-[1px] bg-grey/40" />
+              <div className="h-4 w-[1px] bg-purple-dark/30" />
               <div className="cursor-pointer pl-1.5">
                 <Arrow
                   aria-hidden="true"
                   className={clsx(
-                    "h-6 w-6 fill-grey transition-transform",
+                    "h-6 w-6 fill-purple-dark/60 transition-transform",
                     open && "rotate-180"
                   )}
                 />
@@ -71,11 +71,11 @@ const ListBox = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg lg:mt-2.5">
+            <Listbox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm shadow-lg lg:mt-2.5">
               {options.map((item) => (
                 <Listbox.Option
                   key={item.id}
-                  className="relative cursor-pointer select-none py-2.5 px-[30px] hover:bg-purple-light/20"
+                  className="relative cursor-pointer select-none py-2.5 px-[30px] text-purple-dark/60 hover:bg-purple-light/20"
                   value={item}
                 >
                   {({ selected }) => (

@@ -86,10 +86,10 @@ const Home: NextPage = () => {
                   value={form.location as SelectOptions[]}
                   initialValues={filtersFormInitial.location}
                 >
-                  <Location className="mr-2.5 flex fill-purple-dark/60" />
+                  <Location className="mr-2 -mt-[3px] flex fill-purple-dark/60" />
                 </ComboBox>
               </div>
-              <div className="hidden lg:block lg:h-10 lg:w-[1px] lg:bg-grey/80" />
+              <div className="hidden lg:block lg:h-10 lg:w-[1px] lg:bg-purple-dark/50" />
               <div className="border-b border-grey/20 pb-4 lg:relative lg:flex-[1_1_50%] lg:border-none lg:pb-0">
                 <ListBox
                   name="guests"
@@ -99,13 +99,13 @@ const Home: NextPage = () => {
                   value={form.guests as SelectOptions}
                   initialValues={filtersFormInitial.guests}
                 >
-                  <User className="mr-2.5 h-[22px] w-[22px] fill-purple-dark/60" />
+                  <User className="mr-2 -mt-[1px] h-[22px] w-[22px] fill-purple-dark/60" />
                 </ListBox>
               </div>
             </div>
-            <div className="hidden xl:block xl:h-10 xl:w-[1px] xl:bg-grey/80" />
+            <div className="hidden xl:block xl:h-10 xl:w-[1px] xl:bg-purple-dark/50" />
             <div className="flex w-full flex-col gap-5 lg:flex-row lg:items-center xl:flex-[1_1_40%]">
-              <div className="flex items-center gap-2.5 border-b border-grey/20 pb-4 lg:flex-[1_1_50%] lg:border-none lg:pb-0">
+              <div className="flex items-center gap-2 border-b border-grey/20 pb-4 lg:flex-[1_1_50%] lg:border-none lg:pb-0">
                 <InputCurrency
                   name="minPrice"
                   placeholder="Price minimum"
@@ -113,8 +113,8 @@ const Home: NextPage = () => {
                   onChange={setForm}
                 />
               </div>
-              <div className="hidden lg:block lg:h-10 lg:w-[1px] lg:bg-grey/80" />
-              <div className="flex items-center gap-2.5 border-b border-grey/20 pb-4 lg:flex-[1_1_50%] lg:border-none lg:pb-0">
+              <div className="hidden lg:block lg:h-10 lg:w-[1px] lg:bg-purple-dark/50" />
+              <div className="flex items-center gap-2 border-b border-grey/20 pb-4 lg:flex-[1_1_50%] lg:border-none lg:pb-0">
                 <InputCurrency
                   name="maxPrice"
                   placeholder="Price maximum"

@@ -45,11 +45,11 @@ const ComboBox = ({
     >
       {({ open, value }) => (
         <>
-          <Combobox.Button className="flex w-full items-center pr-2.5">
+          <div className="flex w-full items-center pr-2.5">
             <span>{children}</span>
             <Combobox.Input
               placeholder={placeholder}
-              className="mt-0.5 w-full pr-2.5 text-sm font-medium text-purple-dark/80 outline-none placeholder:font-normal placeholder:text-grey lg:mt-1"
+              className="w-full pr-2.5 text-sm font-medium leading-10 text-purple-dark/80 outline-none placeholder:text-sm placeholder:font-normal placeholder:text-purple-dark/60"
               displayValue={(items: SelectOptions[]) =>
                 items
                   .slice(1)
@@ -58,31 +58,33 @@ const ComboBox = ({
               }
               onChange={(event) => setQuery(event.target.value)}
             />
-            <span className="mt-0.5 flex items-center">
-              <div
-                className="cursor-pointer pr-1.5"
-                onClick={(e: React.FormEvent<HTMLDivElement>) => {
-                  e.stopPropagation();
-                  onChange((prevValues) => ({
-                    ...prevValues,
-                    [name]: initialValues,
-                  }));
-                }}
-              >
-                <X className="h-5 w-5 fill-grey" />
-              </div>
-              <div className="h-4 w-[1px] bg-grey/40" />
-              <div className="cursor-pointer pl-1.5">
-                <Arrow
-                  aria-hidden="true"
-                  className={clsx(
-                    "h-6 w-6 fill-grey transition-transform",
-                    open && "rotate-180"
-                  )}
-                />
-              </div>
-            </span>
-          </Combobox.Button>
+            <Combobox.Button className="">
+              <span className="flex items-center">
+                <div
+                  className="cursor-pointer pr-1.5"
+                  onClick={(e: React.FormEvent<HTMLDivElement>) => {
+                    e.stopPropagation();
+                    onChange((prevValues) => ({
+                      ...prevValues,
+                      [name]: initialValues,
+                    }));
+                  }}
+                >
+                  <X className="h-5 w-5 fill-purple-dark/60" />
+                </div>
+                <div className="h-4 w-[1px] bg-purple-dark/30" />
+                <div className="cursor-pointer pl-1.5">
+                  <Arrow
+                    aria-hidden="true"
+                    className={clsx(
+                      "h-6 w-6 fill-purple-dark/60 transition-transform",
+                      open && "rotate-180"
+                    )}
+                  />
+                </div>
+              </span>
+            </Combobox.Button>
+          </div>
           <Transition
             as={Fragment}
             leave="transition"
@@ -90,7 +92,7 @@ const ComboBox = ({
             leaveTo="opacity-0 scale-[0.98]"
             afterLeave={resetQuery}
           >
-            <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-grey shadow-lg lg:mt-2.5">
+            <Combobox.Options className="absolute left-0 z-10 mt-[16px] w-full rounded-b-20 border border-grey/20 bg-white py-2.5 text-sm text-purple-dark/60 shadow-lg lg:mt-2.5">
               <>
                 {value.length > 1 && (
                   <>
@@ -136,7 +138,7 @@ const ComboBox = ({
                         <span
                           className={clsx(
                             "block truncate",
-                            selected && "font-medium text-purple-dark/80"
+                            selected && "font-medium text-purple-dark/70"
                           )}
                         >
                           {item.name}

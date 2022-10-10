@@ -2,20 +2,18 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "sqlite"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading: 
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-}
-
-model Example {
-    id String @id @default(cuid())
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
 
 // Necessary for Next auth
@@ -25,12 +23,12 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -53,6 +51,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    estates       Estate[]  @relation("Estate")
+    favourites    Estate[]
 }
 
 model VerificationToken {
@@ -61,4 +61,67 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+enum TypeName {
+    APARTMENT
+    HOUSE
+}
+
+model Type {
+    id      String   @id @default(cuid())
+    name    TypeName @unique
+    estates Estate[]
+}
+
+model Address {
+    id      String   @id @default(cuid())
+    line_1  String
+    line_2  String
+    city    String
+    state   String
+    postal  String
+    estates Estate[]
+}
+
+model Amenity {
+    id      String   @id @default(cuid())
+    name    TypeName @unique
+    estates Estate[]
+}
+
+model Image {
+    id      String            @id @default(cuid())
+    path    String            @unique
+    estates ImagesOnEstates[]
+}
+
+model ImagesOnEstates {
+    estate   Estate @relation(fields: [estateId], references: [id])
+    estateId String
+    image    Image  @relation(fields: [imageId], references: [id])
+    imageId  String
+
+    @@id([estateId, imageId])
+}
+
+model Estate {
+    id         String            @id @default(cuid())
+    createdAt  DateTime          @default(now())
+    title      String
+    body       String            @db.Text
+    price      Float
+    rooms      Int               @db.UnsignedTinyInt
+    area       Float
+    minGuests  Int               @db.UnsignedTinyInt
+    maxGuests  Int               @db.UnsignedTinyInt
+    user       User              @relation(fields: [userId], references: [id], name: "Estate")
+    userId     String
+    type       Type              @relation(fields: [typeId], references: [id])
+    typeId     String
+    address    Address           @relation(fields: [addressId], references: [id])
+    addressId  String
+    amenities  Amenity[]
+    images     ImagesOnEstates[]
+    favourites User[]
 }

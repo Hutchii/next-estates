@@ -32,7 +32,7 @@ export default defineNextConfig({
   images: {
     domains: [
       "next-home.s3.eu-central-1.amazonaws.com",
-      "static-cdn.jtvnw.net",
+      "lh3.googleusercontent.com",
     ],
   },
   experimental: {
